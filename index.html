@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Love ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="floating-bg" id="floatingBg"></div>
+
+    <audio id="audio1" src="assets/song1.mp3"></audio>
+    <audio id="audio2" src="assets/song2.mp3"></audio>
+    <audio id="audio3" src="assets/song3.mp3"></audio>
+    <audio id="bgMusic" src="assets/bg-music.mp3" loop></audio>
+
+    <div class="setup-container glass-card active" id="setupPage">
+        <h1 class="title-font">Create Your Surprise 🎁</h1>
+        <p>Fill this form to generate a secret link for your partner.</p>
+        
+        <div class="input-group">
+            <label>Girlfriend's Name / Nickname</label>
+            <input type="text" id="setup-gf" placeholder="Your gf name">
+        </div>
+        
+        <div class="input-group">
+            <label>Boyfriend's Name</label>
+            <input type="text" id="setup-bf" placeholder="Your Name">
+        </div>
+
+        <div class="input-group">
+            <label>Secret Password</label>
+            <input type="text" id="setup-pass" placeholder="e.g. 143, our date">
+        </div>
+
+        <div class="input-group">
+            <label>Hint Question</label>
+            <input type="text" id="setup-hint" placeholder="e.g. What is my fav color?">
+        </div>
+
+        <button class="btn-primary" onclick="generateLink()">✨ Generate Link</button>
+
+        <div id="result-area" class="hidden">
+            <p>Copy this link and send it to her:</p>
+            <textarea id="generated-url" readonly></textarea>
+            <button class="btn-secondary" onclick="copyLink()">📋 Copy Link</button>
+        </div>
+    </div>
+
+    <div class="lock-container glass-card" id="lockPage">
+        <h1 class="title-font">Locked with Love 🔒</h1>
+        <p>Answer the question to unlock my heart.</p>
+        
+        <div class="hint-box">
+            <strong>Hint:</strong> <span id="display-hint">...</span>
+        </div>
+
+        <input type="text" id="unlock-pass" class="pass-input" placeholder="Enter Password...">
+        <p id="error-msg" class="error-text hidden">Wrong password! Try again 😢</p>
+        
+        <button class="btn-primary" onclick="checkPassword()">Unlock ❤️</button>
+    </div>
+
+    <div class="main-container hidden" id="mainApp">
+        
+        <div class="page glass-card" id="page1">
+            <div class="content">
+                <h1 class="title-font">Hey <span id="d-gf-name">Beautiful</span>...</h1>
+                <p>I made a little something for you 😉</p>
+                <div class="img-wrapper gradient-border">
+                    <img src="assets/photo1.jpg" alt="My Love" onerror="this.src='https://placehold.co/300x300/ff4d6d/white?text=Your+Photo+Here'">
+                </div>
+                <button class="btn-primary" onclick="nextPage(2)">Enter Surprise ❤️</button>
+            </div>
+        </div>
+
+        <div class="page glass-card" id="page2">
+            <h1 class="title-font">Just Because...</h1>
+            <p>It's not a special date. I just wanted to remind you how amazing you are.</p>
+            <div class="polaroid">
+                <img src="assets/photo2.jpg" alt="Us" onerror="this.src='https://placehold.co/250x300/ff9a9e/white?text=Photo+of+Us'">
+                <div class="caption">My Whole World 🌎</div>
+            </div>
+            <button class="btn-primary" onclick="nextPage(3)">Let's Go Back ➡️</button>
+        </div>
+
+        <div class="page glass-card" id="page3">
+            <h1>It's You...My Sweetheart!😘</h1>
+            <p>I always Love You😍😍</p>
+            <img src="assets/photo3.jpg" class="rounded-img shadow-img" alt="First Meet" onerror="this.src='https://placehold.co/400x250/a1c4fd/white?text=First+Meeting+Photo'">
+            <p class="story-text">You are still the same as when I first saw you....🤩🤩</p>
+            <button class="btn-primary" onclick="nextPage(4)">Next Chapter ➡️</button>
+        </div>
+
+        <div class="page glass-card" id="page4">
+            <h1>Our Journey So Far</h1>
+            <ul class="timeline">
+                <li>
+                    <div class="date">Day 1</div>
+                    <p>Became yours.</p>
+                </li>
+                <li>
+                    <div class="date">Best Memory🥰</div>
+                    <p>When you first pulled my hand to your chest..😅</p>
+                </li>
+                <li>
+                    <div class="date">Now</div>
+                    <p>Loving you more each day.</p>
+                </li>
+            </ul>
+            <button class="btn-primary" onclick="nextPage(5)">See Our Photos ➡️</button>
+        </div>
+
+        <div class="page glass-card" id="page5">
+            <h1>Some beautiful photo of my beautiful wife😁🫣</h1>
+            <div class="gallery-grid">
+                <img src="assets/photo4.jpg" alt="Memories" onerror="this.src='https://placehold.co/150x150/ffecd2/333'">
+                <img src="assets/photo5.jpg" alt="Memories" onerror="this.src='https://placehold.co/150x150/fcb69f/333'">
+                <img src="assets/photo6.jpg" alt="Memories" onerror="this.src='https://placehold.co/150x150/ff9a9e/333'">
+                <img src="assets/photo7.jpg" alt="Memories" onerror="this.src='https://placehold.co/150x150/a1c4fd/333'">
+            </div>
+            <button class="btn-primary" onclick="nextPage(6)">Listen to This ➡️</button>
+        </div>
+
+        <div class="page glass-card" id="page6">
+            <h1>Songs For You 🎵</h1>
+            <p>Click to play a song that reminds me of you.</p>
+            <div class="music-buttons">
+                <button class="btn-music" onclick="playSong('audio1', this)">🎵 Your Favourite</button>
+                <button class="btn-music" onclick="playSong('audio2', this)">🎸 My Favourite</button>
+                <button class="btn-music" onclick="playSong('audio3', this)">🎹 Our Favourite</button>
+            </div>
+            <button class="btn-stop hidden" id="stopBtn" onclick="stopAllMusic()">⏹️ Stop Music</button>
+            <br>
+            <button class="btn-primary" onclick="nextPage(7)">Play a Game ➡️</button>
+        </div>
+
+        <div class="page glass-card" id="page7">
+            <h1>How well do you know me? 🤔</h1>
+            <p class="quiz-question">What's the one thing I love most about you?</p>
+            <div class="options-grid">
+                <button class="btn-option" onclick="wrongAnswer(this)">Your Eyes</button>
+                <button class="btn-option correct-answer" onclick="correctAnswer(this)">Your Kind Heart ❤️</button>
+                <button class="btn-option" onclick="wrongAnswer(this)">Your Style</button>
+            </div>
+            <button class="btn-primary hidden" id="quizNext" onclick="nextPage(8)">Next ➡️</button>
+        </div>
+
+        <div class="page glass-card" id="page8">
+            <h1>Why I Love You</h1>
+            <div class="reason-box">
+                <p id="reason-display">Tap the button to know why...</p>
+            </div>
+            <button class="btn-secondary" onclick="showReason()">Tell Me 💖</button>
+            <br><br>
+            <button class="btn-primary" onclick="nextPage(9)">Your Gifts ➡️</button>
+        </div>
+
+        <div class="page glass-card" id="page9">
+            <h1>Love Coupons 🎟️</h1>
+            <p>Redeem these whenever you want!</p>
+            <div class="coupon-container">
+                <div class="coupon">Always with you🥰</div>
+                <div class="coupon">Fulfilling your little desires🙌</div>
+                <div class="coupon">Helping you in your work🤗🤗</div>
+            </div>
+            <button class="btn-primary" onclick="nextPage(10)">A Special Flower ➡️</button>
+        </div>
+
+       
+            
+    <div class="page glass-card" id="page10">
+    <h1>A Garden for You 🌹</h1>
+    <p>Just like these flowers, you make my life beautiful.</p>
+    
+    <div class="flower-stage">
+        <div class="night-flower">
+            <div class="stem"></div>
+            <div class="leaf leaf-left"></div>
+            <div class="leaf leaf-right"></div>
+            
+            <div class="flower-head">
+                <div class="petal p1"></div>
+                <div class="petal p2"></div>
+                <div class="petal p3"></div>
+                <div class="petal p4"></div>
+                <div class="petal mid-p1"></div>
+                <div class="petal mid-p2"></div>
+                <div class="petal mid-p3"></div>
+                <div class="petal mid-p4"></div>
+                <div class="core"></div>
+            </div>
+            
+            <div class="light-spark s1"></div>
+            <div class="light-spark s2"></div>
+            <div class="light-spark s3"></div>
+        </div>
+    </div>
+
+    <p style="margin-top: 20px;">My love for you keeps growing.</p>
+    <button class="btn-primary" onclick="nextPage(11)">Our Future ➡️</button>
+</div>
+
+        <div class="page glass-card" id="page11">
+            <h1>Our Bucket List ✈️</h1>
+            <ul class="bucket-list-styled">
+                <li>✅ Fell in love with you😍</li>
+                <li>⬜ Marry You🥰</li>
+                <li>⬜ Making Our Product😁🫣</li>
+                <li>⬜ Getting old together</li>
+            </ul>
+            <button class="btn-primary" onclick="nextPage(12)">Dream Life ➡️</button>
+        </div>
+
+        <div class="page glass-card" id="page12">
+            <h1>Our Future ? Yes🥹🥹</h1>
+            <img src="assets/future.jpg" class="rounded-img shadow-img" alt="Future" onerror="this.src='https://placehold.co/400x300/f6d365/white?text=Our+Dream+Home'">
+            <p>It will definitely be possible if you stay with me until the end.👌🤞</p>
+            <button class="btn-primary" onclick="nextPage(13)">Open Letters ➡️</button>
+        </div>
+
+        <div class="page glass-card" id="page13">
+            <h1>Open When You Feel... 💌</h1>
+            <p>Tap a card to read the message behind it.</p>
+            
+            <div class="mood-selection">
+                <div class="flip-card-container" onclick="this.classList.toggle('flipped')">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front mood-btn sad">
+                            😢<br>Sad
+                        </div>
+                        <div class="flip-card-back sad-back">
+                            <p>I'm always here to wipe your tears. Call me. ❤️</p>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="flip-card-container" onclick="this.classList.toggle('flipped')">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front mood-btn missing">
+                            🥺<br>Missing Me
+                        </div>
+                        <div class="flip-card-back missing-back">
+                            <p>Close your eyes. I'm right there in your heart. 💖</p>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="flip-card-container" onclick="this.classList.toggle('flipped')">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front mood-btn mad">
+                            😡<br>Mad at Me
+                        </div>
+                        <div class="flip-card-back mad-back">
+                            <p>Sorry my moina! Please forgive me? 🥺💐</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn-primary" onclick="nextPage(14)">My Final Letter ➡️</button>
+        </div>
+
+        <div class="page glass-card" id="page14">
+            <h1>My Promise To You 📜</h1>
+            <div class="long-letter">
+                <p>My Dearest <span class="d-gf-name-text">Love</span>,</p>
+                <p>From the moment you walked into my life, everything changed for the better. You are my best friend, my greatest support, and my one true love.</p>
+                <p>I promise to always make you laugh, to hold your hand through the tough times, and to cherish every single moment with you.</p>
+                <p>Forever yours,<br><strong id="d-bf-name">Your Name</strong></p>
+            </div>
+            <button class="btn-primary" onclick="nextPage(15)">One Last Question ➡️</button>
+        </div>
+
+        <div class="page glass-card" id="page15">
+            <h1 class="title-font big-question">Will you be mine forever? ❤️</h1>
+            
+            <div class="proposal-buttons" style="position: relative; height: 200px; width: 100%; display: flex; justify-content: center; align-items: center;">
+                <button class="btn-yes" onclick="finalSuccess()">YES, Forever! 😍</button>
+                
+                <button id="runaway-btn" onmouseover="moveButton(this)" onclick="moveButton(this)">No 😜</button>
+            </div>
+        </div>
+
+    </div> 
+    
+    <div id="success-overlay" class="hidden">
+        <h1 class="title-font success-title">YAY! I Knew It! 🎉</h1>
+        <p class="success-text">I Love You More Than Words Can Say!</p>
+        
+        <div class="final-buttons-container">
+            <button class="btn-primary special-btn" onclick="sendLoves()">💖 Send Loves 💖</button>
+            <button class="btn-secondary special-btn" onclick="restartExperience()">🔄 Experience Again</button>
+        </div>
+            <p class="copyright-text">© Created By MD Arman Uddin Shiam</p>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

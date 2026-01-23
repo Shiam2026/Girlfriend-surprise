@@ -1,0 +1,554 @@
+/* --- 1. Global Reset & Typography --- */
+:root {
+    --primary-color: #ff4d6d;
+    --secondary-color: #ff8fa3;
+    --bg-gradient: linear-gradient(135deg, #FFF5F7 0%, #E3F2FD 100%);
+    --glass-bg: rgba(255, 255, 255, 0.4);
+    --glass-border: rgba(255, 255, 255, 0.6);
+    --text-color: #444;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    background: var(--bg-gradient);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow-x: hidden;
+    color: var(--text-color);
+}
+
+.title-font {
+    font-family: 'Dancing Script', cursive;
+    font-size: 3rem;
+    color: var(--primary-color);
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+}
+
+h1 { color: var(--primary-color); }
+p { font-size: 1.1rem; line-height: 1.6; }
+.hidden { display: none !important; }
+
+/* --- 2. Floating Background Animation --- */
+.floating-bg {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.floating-element {
+    position: absolute;
+    opacity: 0.5;
+    animation: floatBg infinite linear;
+}
+
+@keyframes floatBg {
+    0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+    20% { opacity: 0.6; }
+    80% { opacity: 0.6; }
+    100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+}
+
+/* --- 3. Main Layout & Glass Card --- */
+.main-container {
+    width: 95%;
+    max-width: 500px;
+    padding: 20px 0;
+    position: relative;
+    z-index: 10;
+}
+
+.glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border-radius: 25px;
+    border: 2px solid var(--glass-border);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    padding: 40px 30px;
+    text-align: center;
+    display: none; /* Hide all initially */
+    animation: scaleIn 0.6s ease-out;
+}
+
+.glass-card.active { display: block; }
+
+@keyframes scaleIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+/* --- 4. Images & Decor --- */
+.img-wrapper {
+    width: 220px; height: 220px;
+    margin: 30px auto;
+    padding: 8px;
+    border-radius: 50%;
+    background: linear-gradient(45deg, var(--primary-color), #a1c4fd);
+    box-shadow: 0 10px 20px rgba(255, 77, 109, 0.3);
+}
+.img-wrapper img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; border: 4px solid white; }
+
+.rounded-img { border-radius: 20px; width: 100%; }
+.shadow-img { box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
+
+.polaroid {
+    background: #fff; padding: 15px 15px 40px 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    transform: rotate(-3deg) scale(0.95);
+    transition: 0.3s; margin: 30px auto;
+    width: fit-content;
+}
+.polaroid:hover { transform: rotate(0deg) scale(1); z-index: 5; }
+.polaroid .caption { margin-top: 15px; font-family: 'Dancing Script', cursive; font-size: 1.5rem; color: #555; }
+
+.polaroid img {
+    max-width: 280px;  /* ছবির সর্বোচ্চ চওড়া নির্ধারণ করে দিলাম */
+    height: auto;      /* উচ্চতা অটোমেটিক ঠিক থাকবে */
+    display: block;    /* নিচে কোনো ফাকা জায়গা থাকবে না */
+    border-radius: 5px; /* অপশনাল: ছবির কোণা একটু রাউন্ড করার জন্য */
+}
+
+/* --- 5. Buttons --- */
+button { cursor: pointer; font-family: 'Poppins', sans-serif; transition: 0.3s; outline: none; }
+
+.btn-primary, .btn-secondary, .btn-music, .btn-option, .btn-envelope, .btn-yes {
+    padding: 14px 32px;
+    border-radius: 50px;
+    border: none;
+    font-size: 1.1rem;
+    font-weight: 600;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    margin-top: 25px;
+}
+
+.btn-primary {
+    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+    color: white;
+}
+.btn-primary:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(255, 77, 109, 0.4); }
+
+.btn-secondary {
+    background: white; color: var(--primary-color);
+    border: 2px solid var(--primary-color);
+}
+.btn-secondary:hover { background: var(--primary-color); color: white; }
+
+/* --- 6. Page Specific Styles --- */
+/* Timeline */
+.timeline { list-style: none; padding: 0; text-align: left; margin-top: 30px; }
+.timeline li {
+    border-left: 3px solid var(--primary-color);
+    padding-left: 25px; margin-bottom: 30px; position: relative;
+}
+.timeline li::before {
+    content: '❤️'; position: absolute; left: -14px; top: 0;
+    background: white; padding: 5px; border-radius: 50%; font-size: 1.2rem;
+}
+.timeline .date { font-weight: bold; color: var(--primary-color); margin-bottom: 5px; }
+
+/* Gallery Grid */
+.gallery-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin: 30px 0;
+}
+.gallery-grid img { width: 100%; height: 120px; object-fit: cover; border-radius: 15px; transition: 0.3s; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+.gallery-grid img:hover { transform: scale(1.05); z-index: 2; }
+
+/* Music Player */
+.music-buttons { display: flex; flex-direction: column; gap: 15px; margin: 30px 0; }
+.btn-music {
+    background: white; color: #333; width: 100%;
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+}
+.btn-music.playing { background: linear-gradient(45deg, #4facfe, #00f2fe); color: white; animation: pulse 1.5s infinite; }
+@keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(79, 172, 254, 0.4); } 70% { box-shadow: 0 0 0 20px rgba(79, 172, 254, 0); } 100% { box-shadow: 0 0 0 0 rgba(79, 172, 254, 0); } }
+.btn-stop { background: #ff4757; color: white; border: none; padding: 10px 20px; border-radius: 30px; margin-top: 15px; }
+
+/* Quiz */
+.options-grid { display: flex; flex-direction: column; gap: 15px; margin: 30px 0; }
+.btn-option { background: white; color: #555; width: 100%; border: 2px solid #eee; }
+.btn-option:hover { border-color: var(--primary-color); color: var(--primary-color); }
+.btn-option.wrong { background: #ff6b6b; color: white; border-color: #ff6b6b; animation: shake 0.4s; }
+.btn-option.correct { background: #51cf66; color: white; border-color: #51cf66; }
+@keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-10px); } 75% { transform: translateX(10px); } }
+
+/* Reason Box */
+.reason-box { background: rgba(255,255,255,0.6); padding: 25px; border-radius: 20px; min-height: 80px; display: flex; align-items: center; justify-content: center; font-weight: bold; color: var(--primary-color); font-size: 1.2rem; border: 2px dashed var(--primary-color); }
+
+/* Coupons */
+.coupon-container { display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; margin: 30px 0; }
+.coupon { background: white; padding: 15px 25px; border-radius: 15px; border: 2px dashed #a1c4fd; font-weight: bold; color: #555; box-shadow: 0 5px 10px rgba(0,0,0,0.05); transform: rotate(-2deg); transition: 0.3s; }
+.coupon:nth-child(even) { transform: rotate(2deg); border-color: var(--secondary-color); }
+.coupon:hover { transform: rotate(0deg) scale(1.1); }
+
+/* --- 7. REALISTIC FLOWERS (নতুন) --- */
+.realistic-garden {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 10px;
+    height: 250px;
+    margin: 30px 0;
+}
+.real-flower {
+    width: auto;
+    height: 160px; /* ফুলের সাইজ */
+    filter: drop-shadow(0 5px 15px rgba(0,0,0,0.2));
+    transition: transform 0.3s ease;
+    cursor: pointer;
+}
+.real-flower:hover { transform: scale(1.1) translateY(-10px); }
+.f1 { transform: rotate(-8deg); }
+.f2 { height: 200px; z-index: 2; } /* মাঝেরটা বড় */
+.f3 { transform: rotate(8deg); }
+
+/* Bucket List */
+.bucket-list-styled { text-align: left; display: inline-block; margin-top: 30px; }
+.bucket-list-styled li { margin-bottom: 15px; font-size: 1.1rem; }
+
+/* --- 8. FLIP CARDS (নতুন মুড কার্ড) --- */
+.mood-selection {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin: 30px 0;
+    flex-wrap: wrap;
+}
+.flip-card-container {
+    background-color: transparent;
+    width: 130px;
+    height: 130px;
+    perspective: 1000px;
+    cursor: pointer;
+}
+.flip-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+.flip-card-container.flipped .flip-card-inner {
+    transform: rotateY(180deg);
+}
+.flip-card-front, .flip-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 10px;
+    box-sizing: border-box;
+    border-radius: 15px;
+    font-weight: bold;
+}
+.flip-card-front { background-color: #fff; color: #444; font-size: 1rem; }
+.sad { border-bottom: 4px solid #a1c4fd; }
+.missing { border-bottom: 4px solid #ff9a9e; }
+.mad { border-bottom: 4px solid #ff6b6b; }
+
+.flip-card-back {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    transform: rotateY(180deg);
+    font-size: 0.85rem;
+}
+.flip-card-back p { margin: 0; line-height: 1.3; }
+
+/* Love Letter */
+.long-letter { background: rgba(255,255,255,0.7); padding: 30px; border-radius: 20px; text-align: left; font-family: 'Dancing Script', cursive; font-size: 1.4rem; line-height: 1.8; border: 1px solid rgba(255,255,255,0.8); margin: 30px 0; }
+
+/* --- 9. RUNAWAY BUTTON & SUCCESS (নতুন) --- */
+.big-question { font-size: 2.5rem; margin-bottom: 30px; }
+
+.btn-yes { z-index: 10; padding: 15px 40px; font-size: 1.3rem; }
+
+#runaway-btn {
+    position: absolute; /* এটা তাকে নড়াচড়া করতে দেবে */
+    top: 50%;
+    right: 20%; /* Yes বাটনের একটু দূরে */
+    background: #eee;
+    color: #555;
+    border: 1px solid #ccc;
+    padding: 10px 20px;
+    border-radius: 50px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease-out; /* স্মুথ মুভমেন্ট */
+    z-index: 100;
+}
+
+/* Success Overlay */
+#success-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #fff1f2 0%, #ffd1dc 100%); z-index: 200; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+.success-title { font-size: 4rem; margin-bottom: 20px; animation: popIn 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
+.success-text { font-size: 1.5rem; color: #555; animation: fadeIn 1s ease-in 0.5s both; }
+
+@keyframes popIn { from { transform: scale(0); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+/* Final Buttons Area */
+.final-buttons-container {
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    animation: fadeIn 1.5s ease-in 1s both;
+}
+.special-btn { width: 250px; margin-top: 0; }
+
+/* Floating Emojis (Send Loves) */
+/* Floating Emojis (Send Loves) */
+/* Floating Emojis (Send Loves) */
+.floating-emoji {
+    position: fixed;
+    bottom: -50px; /* নিচ থেকে শুরু */
+    z-index: 9999; /* সবার উপরে থাকার জন্য */
+    pointer-events: none;
+    animation: floatUpEmoji ease-in forwards;
+    will-change: transform, opacity;
+}
+
+/* এই Keyframe টি না থাকলে ইমোজি নড়বে না */
+@keyframes floatUpEmoji {
+    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
+}
+
+/* Setup & Lock Screens */
+.setup-container, .lock-container { width: 90%; max-width: 450px; z-index: 100; margin: 0 auto; }
+.input-group { text-align: left; margin-bottom: 15px; }
+.input-group label { display: block; font-size: 0.9rem; color: var(--primary-color); margin-bottom: 5px; font-weight: 600; }
+input[type="text"] { width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: 1rem; outline: none; transition: 0.3s; box-sizing: border-box; }
+input[type="text"]:focus { border-color: var(--primary-color); box-shadow: 0 0 8px rgba(255, 77, 109, 0.2); }
+#result-area { margin-top: 20px; padding-top: 15px; border-top: 1px dashed #ccc; animation: fadeIn 0.5s; }
+textarea { width: 100%; height: 60px; margin: 10px 0; padding: 8px; border-radius: 8px; border: 1px solid #ccc; resize: none; font-size: 0.85rem; background: #f9f9f9; }
+.hint-box { background: #fff0f3; color: #d63384; padding: 10px; border-radius: 8px; margin: 20px 0; border: 1px dashed #ff8fa3; }
+.pass-input { text-align: center; letter-spacing: 2px; font-weight: bold; }
+.error-text { color: red; font-size: 0.9rem; margin-top: 5px; }
+
+/* --- Video Style Realistic Glowing Flower --- */
+
+/* ফুলের কন্টেইনার (কালো ব্যাকগ্রাউন্ড যাতে গ্লো বোঝা যায়) */
+.flower-stage {
+    position: relative;
+    width: 100%;
+    height: 350px;
+    background: radial-gradient(circle at center, #1a2a6c, #000); /* রাতের আকাশ */
+    border-radius: 20px;
+    overflow: hidden;
+    margin-top: 20px;
+    box-shadow: inset 0 0 20px #000;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+/* ফুল পুরোটা */
+.night-flower {
+    position: relative;
+    bottom: 0;
+    width: 10px; /* ডালের প্রস্থ */
+    height: 300px;
+    display: flex;
+    justify-content: center;
+}
+
+/* ডাল (Stem) - নিচ থেকে গজাবে */
+.stem {
+    position: absolute;
+    bottom: 0;
+    width: 6px;
+    height: 0; /* শুরুতে ০ */
+    background: linear-gradient(to top, #004d40, #00d2ff);
+    box-shadow: 0 0 10px #00d2ff;
+    border-radius: 10px;
+    animation: growStemFinal 2s ease-out forwards;
+}
+
+/* পাতা (Leaf) - বাঁকা এবং শার্প */
+.leaf {
+    position: absolute;
+    bottom: 80px;
+    width: 0; height: 0;
+    background: #00d2ff;
+    box-shadow: 0 0 10px #00d2ff;
+    border-radius: 0 50px 0 50px;
+    opacity: 0;
+}
+
+.leaf-left {
+    left: -5px;
+    transform-origin: bottom right;
+    animation: growLeafLeft 1.5s 1.5s ease-out forwards;
+}
+
+.leaf-right {
+    right: -5px;
+    border-radius: 50px 0 50px 0;
+    transform-origin: bottom left;
+    animation: growLeafRight 1.5s 1.7s ease-out forwards;
+}
+
+/* ফুলের মাথা (Head) */
+.flower-head {
+    position: absolute;
+    top: 50px; /* ডালের মাথায় */
+    width: 0; height: 0;
+    animation: moveHeadUp 2s ease-out forwards; /* ডালের সাথে উপরে উঠবে */
+}
+
+/* পাপড়ি (Petals) - ভিডিওর মতো লেয়ার */
+.petal {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%) scale(0);
+    transform-origin: bottom center;
+    background: radial-gradient(circle, rgba(255,255,255,0.9) 0%, #00d2ff 60%, transparent 100%);
+    box-shadow: 0 0 15px #00d2ff;
+    border-radius: 50% 50% 0 0;
+    opacity: 0;
+}
+
+/* বাইরের বড় পাপড়ি */
+.p1, .p2, .p3, .p4 {
+    width: 50px; height: 80px;
+    margin-left: -25px; /* Centering fix */
+    z-index: 1;
+}
+
+/* মাঝের ছোট পাপড়ি */
+.mid-p1, .mid-p2, .mid-p3, .mid-p4 {
+    width: 30px; height: 50px;
+    margin-left: -15px; /* Centering fix */
+    z-index: 2;
+    background: radial-gradient(circle, #fff 0%, #00ffff 100%);
+}
+
+/* পাপড়ি খোলার এনিমেশন (টাইমিং সেট করা) */
+.p1 { animation: bloom 2s 2.2s ease-out forwards; transform: rotate(0deg); }
+.p2 { animation: bloom 2s 2.4s ease-out forwards; transform: rotate(90deg); }
+.p3 { animation: bloom 2s 2.6s ease-out forwards; transform: rotate(180deg); }
+.p4 { animation: bloom 2s 2.8s ease-out forwards; transform: rotate(270deg); }
+
+.mid-p1 { animation: bloomMid 2s 3s ease-out forwards; transform: rotate(45deg); }
+.mid-p2 { animation: bloomMid 2s 3.1s ease-out forwards; transform: rotate(135deg); }
+.mid-p3 { animation: bloomMid 2s 3.2s ease-out forwards; transform: rotate(225deg); }
+.mid-p4 { animation: bloomMid 2s 3.3s ease-out forwards; transform: rotate(315deg); }
+
+/* মাঝখানের উজ্জ্বল বিন্দু */
+.core {
+    position: absolute;
+    width: 0; height: 0;
+    background: #fff;
+    border-radius: 50%;
+    box-shadow: 0 0 20px #fff, 0 0 40px #00d2ff;
+    z-index: 10;
+    top: -10px;
+    animation: growCore 1s 3.5s ease-out forwards;
+}
+
+/* ভাসমান কণা (Sparkles) */
+.light-spark {
+    position: absolute;
+    width: 3px; height: 3px;
+    background: #fff;
+    border-radius: 50%;
+    box-shadow: 0 0 5px #fff;
+    opacity: 0;
+}
+.s1 { bottom: 20px; left: 30%; animation: floatSpark 4s 2s infinite; }
+.s2 { bottom: 100px; right: 20%; animation: floatSpark 5s 2.5s infinite; }
+.s3 { top: 50px; left: 40%; animation: floatSpark 6s 3s infinite; }
+
+
+/* --- Keyframes (Animations) --- */
+
+@keyframes growStemFinal {
+    0% { height: 0; }
+    100% { height: 220px; } /* ফাইনাল উচ্চতা */
+}
+
+@keyframes growLeafLeft {
+    0% { width: 0; height: 0; opacity: 0; transform: rotate(0); }
+    100% { width: 50px; height: 25px; opacity: 1; transform: rotate(-35deg); }
+}
+
+@keyframes growLeafRight {
+    0% { width: 0; height: 0; opacity: 0; transform: rotate(0); }
+    100% { width: 50px; height: 25px; opacity: 1; transform: rotate(35deg); }
+}
+
+@keyframes moveHeadUp {
+    0% { top: 300px; } /* নিচে শুরু */
+    100% { top: 70px; } /* স্টেমের মাথায় শেষ */
+}
+
+/* বড় পাপড়ি ব্লুম */
+@keyframes bloom {
+    0% { opacity: 0; transform: rotate(var(--r, 0deg)) scale(0) translateY(0); }
+    100% { opacity: 0.8; transform: rotate(var(--r, 0deg)) scale(1) translateY(-40px); } 
+    /* নোট: এখানে JS ছাড়া rotate ভ্যালু CSS ক্লাসেই হ্যান্ডেল করা হয়েছে */
+}
+/* আলাদা করে প্রতিটা পাপড়ির জন্য ফাইনাল পজিশন */
+.p1 { --r: 0deg; } .p2 { --r: 90deg; } .p3 { --r: 180deg; } .p4 { --r: 270deg; }
+.mid-p1 { --r: 45deg; } .mid-p2 { --r: 135deg; } .mid-p3 { --r: 225deg; } .mid-p4 { --r: 315deg; }
+
+@keyframes bloom {
+    /* পাপড়ি ফোটার সময় একটু বাইরের দিকে ছড়িয়ে যাবে */
+    0% { width: 0; height: 0; opacity: 0; }
+    100% { width: 50px; height: 80px; opacity: 0.9; margin-bottom: 10px; }
+}
+
+@keyframes bloomMid {
+    0% { width: 0; height: 0; opacity: 0; }
+    100% { width: 30px; height: 50px; opacity: 1; margin-bottom: 5px; }
+}
+
+@keyframes growCore {
+    0% { width: 0; height: 0; top: 0; }
+    100% { width: 15px; height: 15px; top: -15px; }
+}
+
+@keyframes floatSpark {
+    0% { transform: translateY(0); opacity: 0; }
+    50% { opacity: 1; }
+    100% { transform: translateY(-80px); opacity: 0; }
+}
+
+/* style.css ফাইলের একদম নিচে এটি যোগ করুন */
+
+.copyright-text {
+    position: absolute; /* পেজের নিচে ফিক্স করার জন্য */
+    bottom: 20px;       /* নিচ থেকে ২০ পিক্সেল উপরে থাকবে */
+    width: 100%;
+    text-align: center;
+    font-size: 0.9rem;
+    color: #777;        /* হালকা ধূসর রঙ যাতে বেশি চোখে না লাগে */
+    font-family: 'Poppins', sans-serif;
+    opacity: 0.8;
+}
+
+/* --- Fix for Page 3 Image Sizing --- */
+#page3 img {
+    width: 100%;            /* Allows it to be responsive */
+    max-width: 300px;       /* Stops it from getting too wide */
+    height: 350px;          /* Sets a fixed, reasonable height */
+    object-fit: cover;      /* Crucial: Crops the photo to fit the box without stretching/squishing */
+    display: block;         /* Needed for centering */
+    margin: 20px auto;      /* Centers the image in the card */
+    border-radius: 20px;    /* Keeps your rounded corners */
+}
